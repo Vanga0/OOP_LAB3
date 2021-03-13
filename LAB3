@@ -1,0 +1,223 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+class Point {
+protected:
+	int X;
+	int Y;
+	int Color;
+public:
+	Point(int, int, int);
+	Point();
+	int GetX();
+	int GetY();
+	int GetColor();
+	void SetX(int);
+	void SetY(int);
+	void SetColor(int);
+	void Show();
+	void Hide();
+	void MoveTo(int, int);
+};
+
+Point::Point(int X, int Y, int Color) {
+	this->X = X;
+	this->Y = Y;
+	this->Color = Color;
+}
+Point::Point() {
+	X = 2722;
+	Y = 2722;
+	Color = 255;
+}
+void Point::SetX(int X) { this->X = X; }
+void Point::SetY(int Y) { this->Y = Y; }
+void Point::SetColor(int Color) { this->Color = Color; }
+int Point::GetX() { return X; }
+int Point::GetY() { return Y; }
+int Point::GetColor() { return Color; }
+void Point::Show() { cout << "Точка нарисована\n"; }
+void Point::Hide() { cout << "Точка стёрта\n"; }
+void Point::MoveTo(int X, int Y) {
+	Hide();
+	SetX(X);
+	SetY(Y);
+	cout << "Точка сдвинута на " << X << " по оси ОХ и на " << Y << " по оси ОУ" << endl;
+	Show();
+}
+
+class Segment : public Point {
+private:
+	int X1;
+	int Y1;
+public:
+	Segment(int, int, int, int, int);
+	Segment();
+	int GetX1();
+	int GetY1();
+	void SetX1(int);
+	void SetY1(int);
+	void Show();
+	void Hide();
+	void MoveTo(int Xnew, int Ynew);
+	double Dlina();
+};
+
+Segment::Segment(int X, int Y, int X1, int Y1, int Color) :Point(X, Y, Color) {
+	this->X1 = X1;
+	this->Y1 = Y1;
+}
+Segment::Segment() : Point() {
+	X1 = 3027;
+	Y1 = 3027;
+}
+void Segment::SetX1(int X1) { this->X1 = X1; }
+void Segment::SetY1(int Y1) { this->Y1 = Y1; }
+int Segment::GetX1() { return X1; }
+int Segment::GetY1() { return Y1; }
+void Segment::Show() { cout << "Отрезок нарисован\n"; }
+void Segment::Hide() { cout << "Отрезок стёрт\n"; }
+void Segment::MoveTo(int Xnew, int Ynew) {
+	Hide();
+	SetX(X + Xnew);
+	SetX1(X1 + Xnew);
+	SetY(Y + Ynew);
+	SetY1(Y1 + Ynew);
+	cout << "Отрзок сдвинут на " << Xnew << " по оси ОХ и на " << Ynew << " по оси ОУ" << endl;;
+	Show();
+}
+double Segment::Dlina() {
+	double dlina = sqrt(pow(X1 - X, 2) + pow(Y1 - Y, 2));
+	cout << "Длина отрезка равна " << dlina << endl;
+	return dlina;
+}
+
+class square : public Point {
+protected:
+	int Side1;
+	int Side2;
+public:
+	square(int, int, int, int, int);
+	square();
+	int Getside1();
+	int Getside2();
+	void Setside1(int);
+	void Setside2(int);
+	void Show();
+	void Hide();
+	void MoveTo(int, int);
+	double Area();
+};
+square::square(int X, int Y, int side1, int side2, int ColorEllips) :Point(X, Y, ColorEllips)
+{
+	this->Side1 = side1;
+	this->Side2 = side2;
+}
+square::square() : Point() {
+	Side1 = 16;
+	Side2 = 36;
+}
+void square::Setside1(int Rad) { this->Side1 = Rad; }
+void square::Setside2(int Rad) { this->Side2 = Rad; }
+int square::Getside1() { return Side1; }
+int square::Getside2() { return Side2; }
+void square::Show() { cout << "Квадрат нарисован\n"; }
+void square::Hide() { cout << "Квадрат стёрт\n"; }
+void square::MoveTo(int Xnew, int Ynew)
+{
+	Hide();
+	SetX(Xnew);
+	SetY(Ynew);
+	cout << "Квадрат сдвинут на " << X << " по оси ОХ и на " << Y << " по оси ОУ" << endl;;
+	Show();
+};
+double square::Area() {
+	double area =   Side1 * Side2;
+	cout << "Площадь Квадрата равна " << area << endl;
+	return area;
+}
+
+class QuadrilateralPyramid : public square {
+private:
+	int Z;
+	int height;
+public:
+	QuadrilateralPyramid(int, int, int, int, int, int, int);
+	QuadrilateralPyramid();
+	void SetZ(int);
+	void Setheight(int);
+	void SetColorQuadrilateralPyramid(int Color);
+	int GetZ();
+	int Getheight();
+	void Show();
+	void Hide();
+	void MoveTo(int Xnew, int Ynew, int Znew);
+	double Volume();
+};
+
+QuadrilateralPyramid::QuadrilateralPyramid(int X, int Y, int Z, int Side1, int Side2, int height, int Color) :square(X, Y, Side1, Side2, Color) {
+	this->Z = Z;
+	this->height = height;
+}
+QuadrilateralPyramid::QuadrilateralPyramid() : square() {
+	Z = 0;
+	height = 36;
+}
+void QuadrilateralPyramid::SetZ(int Z) { this->Z = Z; }
+void QuadrilateralPyramid::Setheight(int Height) { this->height = Height; }
+void QuadrilateralPyramid::SetColorQuadrilateralPyramid (int Color) { this->Color = Color; }
+int QuadrilateralPyramid::GetZ() { return Z; }
+int QuadrilateralPyramid::Getheight() { return height; }
+void QuadrilateralPyramid::Show() { cout << "Пирамида нарисована\n"; }
+void QuadrilateralPyramid::Hide() { cout << "Пирамида стёрта\n"; }
+void QuadrilateralPyramid::MoveTo(int Xnew, int Ynew, int Znew) {
+	Hide();
+	SetX(Xnew);
+	SetY(Ynew);
+	SetZ(Znew);
+	cout << "Пирамида сдвинута на " << Xnew << " по оси ОХ, на " << Ynew << " по оси ОУ и на " << Znew << " по оси OZ" << endl;;
+	Show();
+}
+double QuadrilateralPyramid::Volume() {
+	double volume = (Side1 * Side2 * height) / 3;
+	cout << "ОбЪём Пирамиды равен " << volume << endl;
+	return volume;
+}
+
+int main() {
+	setlocale(LC_ALL, "RUS");
+	Point point(10, 10, 255);
+	point.Show();
+	point.MoveTo(10, 10);
+	point.Hide();
+
+	cout << endl;
+
+	Segment segment(10, 10, 110, 10, 125);
+	segment.Show();
+	segment.MoveTo(60, 50);
+	segment.Hide();
+	segment.Dlina();
+
+	cout << endl;
+
+	square square(50, 50, 25, 50, 200);
+	square.Show();
+	square.MoveTo(65, 70);
+	square.Hide();
+	square.Area();
+
+	cout << endl;
+
+	QuadrilateralPyramid  Pyramid(77, 77, 77, 35, 65, 35, 30);
+	Pyramid.Show();
+	Pyramid.MoveTo(60, 45, 88);
+	Pyramid.Hide();
+	Pyramid.Volume();
+
+	cout << endl;
+
+	return 0;
+}
